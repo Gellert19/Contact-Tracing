@@ -52,3 +52,23 @@ def main():
     date = input("Enter the date (YYYY-MM-DD) to search for contacts: ").strip()
 
     data = load_data("contacts.csv")
+
+    infected_visits = get_infected_visits(data, patient_name, date)
+
+    # If lonly declare
+    if not infected_visits:
+        print(f"No visits found for {patient_name} on {date}")
+
+    contacts = find_contacts(data, infected_visits, date)
+
+    contacts.discard(patient_name)  # remove patient if appear as contact with self
+
+    if contacts:
+        print("The people who need to be contacted are: ")
+        for contact in contacts:
+            print(contact)
+        else:
+            print(f"No contacts found for {patient_name} on {date}")
+
+
+main()
