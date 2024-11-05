@@ -14,7 +14,7 @@ def load_data(file_path):
             data.append(
                 {
                     "User": row["User"],
-                    "NHS number": row["NHS number"],
+                    "NHS Number": row["NHS Number"],
                     "Date": row["Date"],
                     "Address": row["Address"],
                 }
@@ -49,7 +49,19 @@ def find_contacts(data, infected_visits, date):
 
 def main():
     patient_name = input("Enter the name of the infected patient: ").strip()
-    date = input("Enter the date (YYYY-MM-DD) to search for contacts: ").strip()
+
+    date = input("Enter the date (DD/MM/YYYY) to search for contacts: ").strip()
+
+    dates = []
+    dates = date.split("/")  # split all the numbers apart
+
+    date = ""  # empty date
+
+    for i in reversed(dates):
+        date += i
+        date += "-"
+
+    date = date.removesuffix("-")  # removes extra "-" at the end of the date
 
     data = load_data("contacts.csv")
 
