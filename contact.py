@@ -50,37 +50,22 @@ def find_contacts(data, infected_visits, date):
 def main():
     patient_name = input("Enter the name of the infected patient: ").strip()
 
-    date = input("Enter the date (DD/MM/YYYY) to search for contacts: ").strip()
-
-    dates = []
-    dates = date.split("/")  # split all the numbers apart
-
-    date = ""  # empty date
-
-    for i in reversed(dates):
-        date += i
-        date += "-"
-
-    date = date.removesuffix("-")  # removes extra "-" at the end of the date
+    date = input("Enter the date (MM/DD/YYYY) to search for contacts: ").strip()
 
     data = load_data("contacts.csv")
 
     infected_visits = get_infected_visits(data, patient_name, date)
 
-    # If lonly declare
-    if not infected_visits:
-        print(f"No visits found for {patient_name} on {date}")
-
     contacts = find_contacts(data, infected_visits, date)
 
-    contacts.discard(patient_name)  # remove patient if appear as contact with self
+    contacts.discard(patient_name)  # Remove patient appearing as contact with self
+
 
     if contacts:
-        print("The people who need to be contacted are: ")
         for contact in contacts:
-            print(contact)
-        else:
-            print(f"No contacts found for {patient_name} on {date}")
+            print(f"{contact} should stay at home for the next 10 days due to the trip to {infected_visits[0]} on {date}")
+    elif not contacts:
+        print(f"No contacts found for {patient_name} on {date}")
 
 
 main()
