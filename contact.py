@@ -60,10 +60,11 @@ def main():
 
     contacts.discard(patient_name)  # Remove patient appearing as contact with self
 
-
     if contacts:
         for contact in contacts:
-            print(f"{contact} should stay at home for the next 10 days due to the trip to {infected_visits[0]} on {date}")
+            print(
+                f"{contact} should stay at home for the next 10 days due to the trip to {infected_visits[0]} on {date}"
+            )
     elif not contacts:
         print(f"No contacts found for {patient_name} on {date}")
 
