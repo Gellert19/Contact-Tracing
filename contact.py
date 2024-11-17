@@ -38,11 +38,11 @@ def get_infected_visits(data, patient_name, date):
 def find_contacts(data, infected_visits, date):
     # Find all individuals who visited the same addresses as the infected person on the given date.
 
-    contacts = set()  # Uses a set to avoid duplicates
+    contacts = {}
 
     for entry in data:
         if entry["Date"] == date and entry["Address"] in infected_visits:
-            contacts.add(entry["User"])
+            contacts[entry["User"]] = entry["Address"]
 
     return contacts
 
@@ -50,23 +50,26 @@ def find_contacts(data, infected_visits, date):
 def main():
     patient_name = input("Enter the name of the infected patient: ").strip()
 
-    date = input("Enter the date (MM/DD/YYYY) to search for contacts: ").strip()
+    indate = input("Enter the date (MM/DD/YYYY) to search for contacts: ").strip()
 
     data = load_data("contacts.csv")
 
-    infected_visits = get_infected_visits(data, patient_name, date)
+    infected_visits = get_infected_visits(data, patient_name, indate)
 
-    contacts = find_contacts(data, infected_visits, date)
+    contacts = find_contacts(data, infected_visits, indate)
+    del contacts[patient_name] # Remove patient as contact with self
 
-    contacts.discard(patient_name)  # Remove patient appearing as contact with self
+    # Convert the inputed date into the format needed for the output
+    condate = dt.datetime.strptime(indate, "%m/%d/%Y")
+    outdate = dt.datetime.strftime(condate, "%d, %b %Y")
 
     if contacts:
         for contact in contacts:
             print(
-                f"{contact} should stay at home for the next 10 days due to the trip to {infected_visits[0]} on {date}"
+                f"{contact} should stay at home for the next 10 days due to the trip to {contacts[contact]} on {outdate}"
             )
     elif not contacts:
-        print(f"No contacts found for {patient_name} on {date}")
+        print(f"No contacts found for {patient_name} on {outdate}")
 
 
 main()
