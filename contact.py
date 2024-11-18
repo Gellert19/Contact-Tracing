@@ -37,6 +37,8 @@ def get_infected_visits(data, patient_name, date):
 
 def find_contacts(data, infected_visits, date):
     # Find all individuals who visited the same addresses as the infected person on the given date.
+    # Places idenified individuals in a dict with them as a key and the address they were contacted 
+    # at as the value.
 
     contacts = {}
 
