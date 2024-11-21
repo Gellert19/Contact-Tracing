@@ -14,7 +14,7 @@ def load_data(file_path):
             data.append(
                 {
                     "User": row["User"],
-                    "NHS Number": row["NHS Number"],
+                    "NHS number": row["NHS number"],
                     "Date": row["Date"],
                     "Address": row["Address"],
                 }
@@ -50,9 +50,9 @@ def find_contacts(data, infected_visits, date):
 
 
 def main():
-    patient_name = input("Enter the name of the infected patient: ").strip()
+    patient_name = input("The person who was tested positive: ").strip()
 
-    indate = input("Enter the date (MM/DD/YYYY) to search for contacts: ").strip()
+    indate = input("When was the test? ").strip()
 
     data = load_data("contacts.csv")
 
@@ -68,7 +68,7 @@ def main():
     if contacts:
         for contact in contacts:
             print(
-                f"{contact} should stay at home for the next 10 days due to the trip to {contacts[contact]} on {outdate}"
+                f"{contact} should stay at home for next 10 days due to the trip to {contacts[contact]} on {outdate}"
             )
     elif not contacts:
         print(f"No contacts found for {patient_name} on {outdate}")
