@@ -49,7 +49,8 @@ def main():
     data = load_data("contacts.csv")
     # Convert the inputted date into the format needed for the output
     condate = dt.datetime.strptime(indate, "%m/%d/%Y")
-    middate = dt.datetime.strftime(condate, "%m/%d/%Y")  # Converts the date to "mm/dd/yyyy" if not already
+    # Converts the date to "mm/dd/yyyy" if not already
+    middate = dt.datetime.strftime(condate, "%m/%d/%Y")
     outdate = dt.datetime.strftime(condate, "%d, %b %Y")
     infected_visits = get_infected_visits(data, patient_name, middate)
     contacts = find_contacts(data, infected_visits, middate)
