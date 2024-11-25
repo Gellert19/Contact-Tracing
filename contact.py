@@ -26,7 +26,8 @@ def get_infected_visits(data, patient_name, date):
     # the infected patient on the given date.
     visits = []
     for entry in data:
-        if entry["User"].lower() == patient_name.lower() and entry["Date"] == date:
+        if (entry["User"].lower() == patient_name.lower() 
+            and entry["Date"] == date):
             visits.append(entry["Address"])
     return visits
 
@@ -38,7 +39,8 @@ def find_contacts(data, infected_visits, date):
     # and the address they were contacted at as the value.
     contacts = {}
     for entry in data:
-        if entry["Date"] == date and entry["Address"] in infected_visits:
+        if (entry["Date"] == date 
+            and entry["Address"] in infected_visits):
             contacts[entry["User"]] = entry["Address"]
     return contacts
 
@@ -60,7 +62,8 @@ def main():
     if contacts:
         for contact in contacts:
             print(
-                f"{contact} should stay at home for next 10 days due to the trip to {contacts[contact]} on {outdate}"
+                f"{contact} should stay at home for next 10 days"
+                f"due to the trip to {contacts[contact]} on {outdate}"
             )
     elif not contacts:
         print(f"No contacts found for {patient_name} on {outdate}")
