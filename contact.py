@@ -2,7 +2,7 @@ import csv
 import datetime as dt
 
 
-def load_data(file_path):
+def loadData(file_path):
     # Load the CSV data from the given file path 
     # and return it as a list of dictionaries.
     # Each dictionary contains 'User', 'NHS number', 'Date', and 'Address'.
@@ -21,7 +21,7 @@ def load_data(file_path):
     return data
 
 
-def get_infected_visits(data, patient_name, date):
+def getInfectedVisits(data, patient_name, date):
     # Find and return a list of addresses visited by 
     # the infected patient on the given date.
     visits = []
@@ -32,7 +32,7 @@ def get_infected_visits(data, patient_name, date):
     return visits
 
 
-def find_contacts(data, infected_visits, date):
+def findContacts(data, infected_visits, date):
     # Find all individuals who visited the same addresses as 
     # the infected person on the given date.
     # Places identified individuals in a dict with them as a key 
@@ -46,27 +46,27 @@ def find_contacts(data, infected_visits, date):
 
 
 def main():
-    patient_name = input("The person who was tested positive: ").strip()
-    indate = input("When was the test? ").strip()
-    data = load_data("contacts.csv")
+    patientName = input("The person who was tested positive: ").strip()
+    inDate = input("When was the test? ").strip()
+    data = loadData("contacts.csv")
     # Convert the inputted date into the format needed for the output
-    condate = dt.datetime.strptime(indate, "%m/%d/%Y")
+    conDate = dt.datetime.strptime(inDate, "%m/%d/%Y")
     # Converts the date to "mm/dd/yyyy" if not already
-    middate = dt.datetime.strftime(condate, "%m/%d/%Y")
-    outdate = dt.datetime.strftime(condate, "%d, %b %Y")
-    infected_visits = get_infected_visits(data, patient_name, middate)
-    contacts = find_contacts(data, infected_visits, middate)
-    if patient_name in contacts:
-        del contacts[patient_name]  # Remove patient as contact with self
+    midDate = dt.datetime.strftime(conDate, "%m/%d/%Y")
+    outDate = dt.datetime.strftime(conDate, "%d, %b %Y")
+    infectedVisits = getInfectedVisits(data, patientName, midDate)
+    contacts = findContacts(data, infectedVisits, midDate)
+    if patientName in contacts:
+        del contacts[patientName]  # Remove patient as contact with self
     
     if contacts:
         for contact in contacts:
             print(
                 f"{contact} should stay at home for next 10 days"
-                f"due to the trip to {contacts[contact]} on {outdate}"
+                f"due to the trip to {contacts[contact]} on {outDate}"
             )
     elif not contacts:
-        print(f"No contacts found for {patient_name} on {outdate}")
+        print(f"No contacts found for {patientName} on {outDate}")
 
 
 main()
